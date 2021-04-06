@@ -2,9 +2,37 @@ const path = require('path')
 const express = require('express')
 
 const app = express()
-const publicDirPath = path.join(__dirname, '../public')
 
+// Define paths for Express config
+const publicDirPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates')
+
+// Setup handlebars templating engine and views location with express
+app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+
+// Setup static directory to serve
 app.use(express.static(publicDirPath))
+
+app.get('', (req, res) => {
+  res.render('index', {
+    title: 'Weather',
+    name: 'Niall'
+  })
+})
+
+app.get('/about', (req, res) => {
+  res.render('about', {
+    title: 'About Me',
+    name: 'Niall'
+  })
+})
+
+app.get('/help', (req, res) => {
+  res.render('help', {
+    helpText: 'Helpful text here'
+  })
+})
 
 app.get('/weather', (req, res) => {
   res.send('weather page')
